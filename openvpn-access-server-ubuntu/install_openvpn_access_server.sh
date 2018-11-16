@@ -10,6 +10,8 @@ wget -c https://raw.githubusercontent.com/kunalpatwardhan/azure-quickstart-templ
 wget -c https://raw.githubusercontent.com/kunalpatwardhan/azure-quickstart-templates/master/openvpn-access-server-ubuntu/config.db.bak
 wget -c https://raw.githubusercontent.com/kunalpatwardhan/azure-quickstart-templates/master/openvpn-access-server-ubuntu/log.db.bak
 wget -c https://raw.githubusercontent.com/kunalpatwardhan/azure-quickstart-templates/master/openvpn-access-server-ubuntu/userprop.db.bak
+#download nginx default site enabled configuration
+wget -c https://raw.githubusercontent.com/kunalpatwardhan/azure-quickstart-templates/master/openvpn-access-server-ubuntu/default
 
 #install the software
 sudo dpkg -i openvpn-as-2.1.9-Ubuntu16.amd_64.deb
@@ -19,7 +21,13 @@ sudo echo "openvpn:$userPassword"|sudo chpasswd
 
 #configure server network settings
 PUBLICIP=$(curl -s ifconfig.me)
-sudo apt-get install sqlite3
+
+#install nginx
+sudo apt-get update
+sudo apt-get install nginx -y
+
+#install sqlite3
+sudo apt-get install sqlite3 -y
 
 sudo su
 #backup existing access server configuraion
@@ -45,7 +53,16 @@ rm ./etc/as.conf
 cp /tmp/as.conf.bak ./etc/as.conf
 service openvpnas start
 
+#change required access server settings
 sudo sqlite3 "/usr/local/openvpn_as/etc/db/config.db" "update config set value='$PUBLICIP' where name='host.name';"
+
+service nginx stop
+#copy nginx default site enabled configuration
+cp /tmp/default /etc/nginx/sites-enabled/default
+service nginx start
+sudo systemctl restart nginx
+
 
 #restart OpenVPN AS service
 sudo systemctl restart openvpnas
+
