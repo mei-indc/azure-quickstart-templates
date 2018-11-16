@@ -1,0 +1,78 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE profile (
+	id INTEGER NOT NULL, 
+	name VARCHAR(128) NOT NULL, 
+	type VARCHAR(128), 
+	PRIMARY KEY (id)
+);
+INSERT INTO "profile" VALUES(1,'Default',NULL);
+INSERT INTO "profile" VALUES(2,'_INTERNAL',NULL);
+CREATE TABLE config (
+	profile_id INTEGER NOT NULL, 
+	name VARCHAR(128) NOT NULL, 
+	value TEXT, 
+	PRIMARY KEY (profile_id, name), 
+	FOREIGN KEY(profile_id) REFERENCES profile (id)
+);
+INSERT INTO "config" VALUES(1,'vpn.server.group_pool.0','172.27.240.0/20');
+INSERT INTO "config" VALUES(1,'cs.ssl_method','SSLv3');
+INSERT INTO "config" VALUES(1,'vpn.server.port_share.ip_address','1.2.3.4');
+INSERT INTO "config" VALUES(1,'vpn.daemon.0.listen.port','443');
+INSERT INTO "config" VALUES(1,'auth.ldap.0.name','My LDAP servers');
+INSERT INTO "config" VALUES(1,'vpn.client.routing.reroute_dns','true');
+INSERT INTO "config" VALUES(1,'cs.https.ip_address','eth0');
+INSERT INTO "config" VALUES(1,'vpn.server.daemon.enable','true');
+INSERT INTO "config" VALUES(1,'vpn.daemon.0.client.netmask_bits','20');
+INSERT INTO "config" VALUES(1,'vpn.tls_refresh.interval','360');
+INSERT INTO "config" VALUES(1,'vpn.server.daemon.tcp.n_daemons','1');
+INSERT INTO "config" VALUES(1,'vpn.daemon.0.listen.ip_address','eth0');
+INSERT INTO "config" VALUES(1,'auth.ldap.0.timeout','4');
+INSERT INTO "config" VALUES(1,'vpn.server.daemon.tcp.port','443');
+INSERT INTO "config" VALUES(1,'vpn.server.port_share.port','1234');
+INSERT INTO "config" VALUES(1,'cs.prof_sign_web','true');
+INSERT INTO "config" VALUES(1,'cs.cws_proto_v2','true');
+INSERT INTO "config" VALUES(1,'vpn.daemon.0.server.ip_address','eth0');
+INSERT INTO "config" VALUES(1,'vpn.server.routing.private_access','route');
+INSERT INTO "config" VALUES(1,'vpn.daemon.0.client.network','172.27.224.0');
+INSERT INTO "config" VALUES(1,'auth.pam.0.service','openvpnas');
+INSERT INTO "config" VALUES(1,'auth.ldap.0.use_ssl','never');
+INSERT INTO "config" VALUES(1,'vpn.server.routing.private_network.0','10.0.0.0/24');
+INSERT INTO "config" VALUES(1,'vpn.server.daemon.udp.n_daemons','1');
+INSERT INTO "config" VALUES(1,'sa.initial_run_groups.0','web_group');
+INSERT INTO "config" VALUES(1,'sa.initial_run_groups.1','openvpn_group');
+INSERT INTO "config" VALUES(1,'host.name','13.71.5.242');
+INSERT INTO "config" VALUES(1,'auth.radius.0.acct_enable','false');
+INSERT INTO "config" VALUES(1,'vpn.tls_refresh.do_reauth','true');
+INSERT INTO "config" VALUES(1,'vpn.server.daemon.udp.port','1194');
+INSERT INTO "config" VALUES(1,'vpn.server.port_share.service','admin+client');
+INSERT INTO "config" VALUES(1,'admin_ui.https.port','943');
+INSERT INTO "config" VALUES(1,'cs.https.port','943');
+INSERT INTO "config" VALUES(1,'admin_ui.https.ip_address','eth0');
+INSERT INTO "config" VALUES(1,'vpn.client.routing.reroute_gw','true');
+INSERT INTO "config" VALUES(1,'auth.module.type','pam');
+INSERT INTO "config" VALUES(1,'vpn.daemon.0.listen.protocol','tcp');
+INSERT INTO "config" VALUES(1,'auth.ldap.0.ssl_verify','never');
+INSERT INTO "config" VALUES(1,'auth.radius.0.name','My Radius servers');
+INSERT INTO "config" VALUES(1,'cs.tls_version_min','1.0');
+INSERT INTO "config" VALUES(1,'vpn.server.port_share.enable','true');
+INSERT INTO "config" VALUES(1,'vpn.client.routing.inter_client','true');
+INSERT INTO "config" VALUES(2,'run_api.active_profile','Default');
+INSERT INTO "config" VALUES(2,'webui.edit_profile','Default');
+INSERT INTO "config" VALUES(2,'webui.welcome_shown','true');
+INSERT INTO "config" VALUES(1,'aui.eula_version','2');
+INSERT INTO "config" VALUES(1,'vpn.client.config_text','');
+INSERT INTO "config" VALUES(1,'vpn.server.duplicate_cn','true');
+INSERT INTO "config" VALUES(1,'vpn.server.config_text','');
+INSERT INTO "config" VALUES(1,'vpn.general.osi_layer','3');
+INSERT INTO "config" VALUES(1,'vpn.server.foreign_bridge','');
+INSERT INTO "config" VALUES(1,'vpn.server.routing.gateway_access','true');
+INSERT INTO "config" VALUES(1,'vpn.server.static.0.netmask_bits','24');
+INSERT INTO "config" VALUES(1,'vpn.server.static.0.network','10.0.10.0');
+INSERT INTO "config" VALUES(1,'vpn.server.routing.allow_private_nets_to_clients','true');
+CREATE INDEX ix_profile_id ON profile (id);
+CREATE UNIQUE INDEX ix_profile_name ON profile (name);
+CREATE INDEX ix_profile_type ON profile (type);
+CREATE INDEX ix_config_profile_id ON config (profile_id);
+CREATE INDEX ix_config_name ON config (name);
+COMMIT;
