@@ -38,11 +38,11 @@ rm ./etc/db/certs.db
 rm ./etc/db/userprop.db
 rm ./etc/db/log.db
 rm ./etc/as.conf
-./bin/sqlite3 <./config.db.bak ./etc/db/config.db
-./bin/sqlite3 <./certs.db.bak ./etc/db/certs.db
-./bin/sqlite3 <./userprop.db.bak ./etc/db/userprop.db
-./bin/sqlite3 <./log.db.bak ./etc/db/log.db
-cp ./as.conf.bak ./etc/as.conf
+./bin/sqlite3 </tmp/config.db.bak ./etc/db/config.db
+./bin/sqlite3 </tmp/certs.db.bak ./etc/db/certs.db
+./bin/sqlite3 </tmp/userprop.db.bak ./etc/db/userprop.db
+./bin/sqlite3 </tmp/log.db.bak ./etc/db/log.db
+cp /tmp/as.conf.bak ./etc/as.conf
 service openvpnas start
 
 sudo sqlite3 "/usr/local/openvpn_as/etc/db/config.db" "update config set value='$PUBLICIP' where name='host.name';"
