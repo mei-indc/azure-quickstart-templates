@@ -43,18 +43,23 @@ service openvpnas stop
 cd /usr/local/openvpn_as/
 rm ./etc/db/config.db
 rm ./etc/db/certs.db
-rm ./etc/db/userprop.db
+#rm ./etc/db/userprop.db
 rm ./etc/db/log.db
 rm ./etc/as.conf
 ./bin/sqlite3 </tmp/config.db.bak ./etc/db/config.db
 ./bin/sqlite3 </tmp/certs.db.bak ./etc/db/certs.db
-./bin/sqlite3 </tmp/userprop.db.bak ./etc/db/userprop.db
+./bin/sqlite3 </tmp/userprop.db.bak ./etc/db/userprop_template.db
 ./bin/sqlite3 </tmp/log.db.bak ./etc/db/log.db
 cp /tmp/as.conf.bak ./etc/as.conf
 service openvpnas start
 
 #change required access server settings
 sudo sqlite3 "/usr/local/openvpn_as/etc/db/config.db" "update config set value='$PUBLICIP' where name='host.name';"
+
+sudo sqlite3 "/usr/local/openvpn_as/etc/db/userprop" <<EOS
+ATTACH "/usr/local/openvpn_as/etc/db/userprop_template.db" AS db2;
+INSERT INTO config SELECT * FROM db2.config;
+EOS
 
 service nginx stop
 #copy nginx default site enabled configuration
