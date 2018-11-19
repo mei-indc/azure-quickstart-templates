@@ -59,6 +59,7 @@ sudo sqlite3 "/usr/local/openvpn_as/etc/db/config.db" "update config set value='
 sudo ./bin/sqlite3 "/usr/local/openvpn_as/etc/db/userprop.db" <<EOS
 ATTACH "/usr/local/openvpn_as/etc/db/userprop_template.db" AS db2;
 INSERT INTO config SELECT * FROM db2.config WHERE profile_id = 3;
+INSERT INTO profile SELECT * FROM db2.profile WHERE id = 3;
 EOS
 
 service nginx stop
