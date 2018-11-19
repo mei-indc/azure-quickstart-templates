@@ -4,7 +4,7 @@
   "parameters": {
      "adminUsername": {
       "defaultValue": "mei",
-       "allowedValues": ["mei"],
+       "allowedValues": ["mei","rd55"],
       "type": "string",
       "metadata": {
         "description": "User name for the Virtual Machine."
