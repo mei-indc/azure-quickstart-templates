@@ -56,9 +56,8 @@ service openvpnas start
 #change required access server settings
 sudo sqlite3 "/usr/local/openvpn_as/etc/db/config.db" "update config set value='$PUBLICIP' where name='host.name';"
 
-sudo sqlite3 "/usr/local/openvpn_as/etc/db/userprop" <<EOS
+sudo ./bin/sqlite3 "/usr/local/openvpn_as/etc/db/userprop.db" <<EOS
 ATTACH "/usr/local/openvpn_as/etc/db/userprop_template.db" AS db2;
-DELETE FROM config WHERE profile_id = 3;
 INSERT INTO config SELECT * FROM db2.config WHERE profile_id = 3;
 EOS
 
