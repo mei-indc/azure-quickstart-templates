@@ -59,8 +59,9 @@
     "vmName": "OpenVPN-VM",
     "virtualNetworkName": "OpenVPN-VNET",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets',variables('virtualNetworkName'),variables('subnetName'))]",
-    "networkSecurityGroupName": "OpenVPN-NSG"
-    "adminUsername": "mei"
+    "networkSecurityGroupName": "OpenVPN-NSG",
+    "adminUsername": "mei",
+    "azureuser": "mei"
   },
   "resources": [
     {
