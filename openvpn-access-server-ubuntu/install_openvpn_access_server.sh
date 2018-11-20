@@ -1,5 +1,6 @@
 #!/bin/bash
 userPassword=$1
+adminUsername=$2
 
 #download the packages
 cd /tmp
@@ -56,11 +57,14 @@ service openvpnas start
 #change required access server settings
 sudo sqlite3 "/usr/local/openvpn_as/etc/db/config.db" "update config set value='$PUBLICIP' where name='host.name';"
 
+cd /usr/local/openvpn_as/
 sudo ./bin/sqlite3 "/usr/local/openvpn_as/etc/db/userprop.db" <<EOS
 ATTACH "/usr/local/openvpn_as/etc/db/userprop_template.db" AS db2;
 INSERT INTO config SELECT * FROM db2.config WHERE profile_id = 3;
 INSERT INTO profile SELECT * FROM db2.profile WHERE id = 3;
 EOS
+
+sudo ./bin/sqlite3 "/usr/local/openvpn_as/etc/db/userprop.db" "UPDATE profile SET name = '$adminUsername' WHERE id = 3;"
 
 service nginx stop
 #copy nginx default site enabled configuration
