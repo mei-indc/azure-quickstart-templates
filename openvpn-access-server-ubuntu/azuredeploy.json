@@ -3,8 +3,6 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
      "adminUsername": {
-      "defaultValue": "mei",
-       "allowedValues": ["mei","rd55"],
       "type": "string",
       "metadata": {
         "description": "User name for the Virtual Machine."
