@@ -294,7 +294,7 @@
           ]
         },
         "protectedSettings": {
-          "commandToExecute": "[concat('bash install_openvpn_access_server.sh ', parameters('openvpnPassword'), " " , parameters('adminUsername'))]"
+          "commandToExecute": "[concat('bash install_openvpn_access_server.sh ', parameters('openvpnPassword'), ' ' , parameters('adminUsername'))]"
         }
       }
     }
